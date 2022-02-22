@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MoveUp : MonoBehaviour
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
     public float movementSpeed = 30;
     public float leftRightBound = 10;
     public float upDownBound = 6;
@@ -15,11 +17,13 @@ public class MoveUp : MonoBehaviour
         HandleBullets();
     }
 
+    //This method moves the gameobject upwards
     void UpwardsMovement()
     {
         transform.Translate(Vector2.up * Time.deltaTime * movementSpeed);
     }
 
+    //This method checks bullets for bounds exit
     void HandleBullets()
     {
         if (gameObject.CompareTag("PlayerBullet") || gameObject.CompareTag("EnemyBullet"))
@@ -28,6 +32,7 @@ public class MoveUp : MonoBehaviour
         }
     }
 
+    //This method destroys the bullets when out of bounds
     void DestroyBulletsOnBoundsExit()
     {
         if (transform.position.x < -leftRightBound)
@@ -48,6 +53,7 @@ public class MoveUp : MonoBehaviour
         }
     }
 
+    //This method checks trigger to perform appropriate tasks
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(gameObject.CompareTag("PlayerBullet") && collision.gameObject.CompareTag("Enemy"))

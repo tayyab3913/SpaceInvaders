@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyOne : Enemy
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
 
     // Start is called before the first frame update
     void Start()

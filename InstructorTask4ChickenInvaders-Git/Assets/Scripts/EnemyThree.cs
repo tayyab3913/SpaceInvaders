@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyThree : Enemy
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +20,7 @@ public class EnemyThree : Enemy
         EnemyMovement();
     }
 
+    //This method overrides the enemy movement in base class to have different movement
     public override void EnemyMovement()
     {
         if (!gameManagerScript.gameOver)

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
     public float movementSpeed = 1;
     public float leftRightBound = 10;
     public float upDownBound = 6;
@@ -13,13 +15,16 @@ public class Coin : MonoBehaviour
     void Update()
     {
         MoveDownwards();
+        DestroyOnBoundsExit();
     }
 
+    //This method moves the coin downwards
     void MoveDownwards()
     {
         transform.Translate(Vector2.down * Time.deltaTime * movementSpeed);
     }
 
+    //This method checks trigger to add score
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("Player"))
@@ -29,12 +34,14 @@ public class Coin : MonoBehaviour
         }
     }
 
+    //This method sets game manager reference
     public void SetGameManager(GameManager gameManagerScript)
     {
         this.gameManagerScript = gameManagerScript;
     }
 
-    void DestroyBulletsOnBoundsExit()
+    //This method destroys bullet when out of bounds
+    void DestroyOnBoundsExit()
     {
         if (transform.position.x < -leftRightBound)
         {

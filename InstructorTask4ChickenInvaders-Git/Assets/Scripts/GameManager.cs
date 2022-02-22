@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
     public GameObject playerPrefab;
     public GameObject[] enemyPrefabs;
     public GameObject enemyBossPrefab;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
         GamePauseToggle();
     }
 
+    //This method starts the game
     public void StartGame(Color color)
     {
         cameraMain.backgroundColor = color;
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
         ShowBestTime();
     }
 
+    //This method instantiates the player at the default position
     void InstantiatePlayer()
     {
         playerInstance = Instantiate(playerPrefab, new Vector2(0f, -3.8f), playerPrefab.transform.rotation);
@@ -71,6 +75,9 @@ public class GameManager : MonoBehaviour
         playerScript.SetGameManager(this);
     }
 
+    // Requirement Complete: Each Wave will bring on New Enemies in a different pattern
+    // 5 different enemies will come in each wave
+    //This method instantiates enemy
     void InstantiateEnemy()
     {
         int tempIndex = Random.Range(0, spawnPoints.Length);
@@ -81,6 +88,8 @@ public class GameManager : MonoBehaviour
         enemiesAlive.Add(tempEnemy);
     }
 
+    // Bonus Complete: Hard Chickens(takes multiple hits before going down) / Boss Fight
+    //This method instantiates enemy boss
     void InstantiateEnemyBoss()
     {
         int tempIndex = Random.Range(0, spawnPoints.Length);
@@ -91,6 +100,7 @@ public class GameManager : MonoBehaviour
         enemiesAlive.Add(tempEnemy);
     }
 
+    //This method spawns enemy waves
     void SpawnEnemyWave()
     {
         for (int i = 0; i < numberOfEnemies; i++)
@@ -99,6 +109,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Requirement Complete: Next Wave will start exactly from where the previous wave ends.
+    //This method checks if all enemies have died
     void OnZeroEnemies()
     {
         if (gameOver) return;
@@ -114,12 +126,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //This method sets game over
     public void GameOver()
     {
         gameOver = true;
         ShowGameOverMenu();
     }
 
+    //This method removes an enemy from the alive list
     public void RemoveEnemyFromAliveList(GameObject enemy)
     {
         GameObject tempEnemy = null;
@@ -145,16 +159,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Requirement Complete: Lives and Time taken should be Shown via UI.
+    //This method displays player health
     public void DisplayPlayerHealth()
     {
         livesText.text = "Lives: " + playerScript.GetHealth().ToString();
     }
 
+    // Requirement Complete: Lives and Time taken should be Shown via UI.
+    //This method displays time taken on each wave
     void DisplayTimeTaken()
     {
         timeTakenText.text = "Time: " + timeTaken.ToString();
     }
 
+    //This method shows the timer for each wave
     IEnumerator GameTimer()
     {
         while(!gameOver)
@@ -165,23 +184,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    //This method displays score
     void DisplayScore()
     {
         scoreText.text = "Score: " + score.ToString();
     }
 
+    //This method adds score
     void AddScore()
     {
         score += 5;
         DisplayScore();
     }
 
+    // Bonus Complete: Collectibles and Obstacles falling down
+    //This method adds score on collectable
     public void AddBonusScore()
     {
         score += 30;
         DisplayScore();
     }
 
+    // Requirement Complete: Pause Menu
+    //This method toggles pause game
     void GamePauseToggle()
     {
         if (gameOver) return;
@@ -198,6 +223,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Requirement Complete: Pause Menu
+    //This method pauses the game
     public void PauseGame()
     {
         pauseMenu.SetActive(true);
@@ -205,6 +232,8 @@ public class GameManager : MonoBehaviour
         isPaused = true;
     }
 
+    // Requirement Complete: Pause Menu
+    //This method unpauses the game
     public void UnPauseGame()
     {
         Time.timeScale = 1f;
@@ -212,6 +241,8 @@ public class GameManager : MonoBehaviour
         isPaused = false;
     }
 
+    // Requirement Complete: Main Menu
+    //This method shows the main menu and disables everything else
     public void ShowMainMenu()
     {
         mainMenu.gameObject.SetActive(true);
@@ -221,6 +252,8 @@ public class GameManager : MonoBehaviour
         gameMenu.gameObject.SetActive(false);
     }
 
+    // Requiement Complete: Settings(Sound on/off)
+    //This method shows the settings menu and disables everything else
     public void ShowSettingsMenu()
     {
         mainMenu.gameObject.SetActive(false);
@@ -231,6 +264,8 @@ public class GameManager : MonoBehaviour
         gameOverMenu.gameObject.SetActive(false);
     }
 
+    // Requirement Complete: Level Selection(Different Backgrounds)
+    //This method shows the background selection menu and disables everything else
     public void ShowLevelSelectionMenu()
     {
         mainMenu.gameObject.SetActive(false);
@@ -241,6 +276,7 @@ public class GameManager : MonoBehaviour
         gameOverMenu.gameObject.SetActive(false);
     }
 
+    //This method shows the game menu and disables everything else
     public void ShowGameMenu()
     {
         mainMenu.gameObject.SetActive(false);
@@ -251,6 +287,7 @@ public class GameManager : MonoBehaviour
         gameOverMenu.gameObject.SetActive(false);
     }
 
+    //This method shows the game over menu and disables everything else
     public void ShowGameOverMenu()
     {
         mainMenu.gameObject.SetActive(false);
@@ -260,31 +297,42 @@ public class GameManager : MonoBehaviour
         gameOverMenu.gameObject.SetActive(true);
     }
 
+    //This method reloads the scene
     public void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    // Requiement Complete: Settings(Sound on/off)
+    // Bonus Complete: SFX(Sounds)
+    //This method mutes the volume by setting it to 0
     public void MuteVolume()
     {
         audioSourceMain.volume = 0f;
     }
 
+    // Requiement Complete: Settings(Sound on/off)
+    //This method unmutes the volume by setting it to 1
     public void UnMuteVolume()
     {
         audioSourceMain.volume = 1f;
     }
 
+    //This method exits from the game
     public void ExitGame()
     {
         Application.Quit();
     }
 
+    // Bonus Complete: Best Time for each Wave
+    //This method shows the best time for the wave
     void ShowBestTime()
     {
         bestTimeText.text = "Wave: " + totalWaves + " Best Time: " + PlayerPrefs.GetFloat(("BestTime" + totalWaves), 100).ToString();
     }
 
+    // Bonus Complete: Best Time for each Wave
+    //This method records and saves the best time for the wave
     void RecordBestTime()
     {
         if (timeTaken < PlayerPrefs.GetFloat(("BestTime" + totalWaves), 100))

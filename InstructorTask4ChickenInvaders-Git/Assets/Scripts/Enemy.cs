@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
     public GameObject coinPrefab;
     public int health = 1;
     public GameObject bulletPrefab;
@@ -16,6 +18,7 @@ public class Enemy : MonoBehaviour
 
     protected int movementDirection = 1;
 
+    //This method is responsible for enemy movement
     public virtual void EnemyMovement()
     {
         if (!gameManagerScript.gameOver)
@@ -24,11 +27,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //This method is responsible for shooting enemy bullets
     public virtual void ShootBullets()
     {
         StartCoroutine(ShootDelay());
     }
 
+    //This method is responsible for delay in enemy shooting
     IEnumerator ShootDelay()
     {
         while(!gameManagerScript.gameOver)
@@ -39,11 +44,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //This method is used to set player reference
     public void SetPlayerScript(PlayerController playerScript)
     {
         this.playerScript = playerScript;
     }
 
+    //This method is responsible to check trigger and respond accordingly
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if(collision.gameObject.CompareTag("PlayerBullet"))
@@ -57,12 +64,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //This method is responsible for getting damage
     void GetDamage()
     {
         health--;
         CheckDeath();
     }
 
+    //This method checks is the enemy has died or not
     void CheckDeath()
     {
         if (health < 1)
@@ -72,6 +81,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // Bonus Complete: Collectibles and Obstacles falling down
+    //This method generates a collectable coin
     void GenerateCoin()
     {
         int tempValue = Random.Range(0, 10);
@@ -82,17 +93,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    //This method destroys enemy
     void DestroyEnemy()
     {
         Destroy(gameObject);
         gameManagerScript.RemoveEnemyFromAliveList(gameObject);
     }
 
+    //This method is responsible to set the gamemanager script
     public void SetGameManager(GameManager gameManagerScript)
     {
         this.gameManagerScript = gameManagerScript;
     }
 
+    //This method is responsible to change direction of the enemy
     public IEnumerator ChangeDirection()
     {
         while (!gameManagerScript.gameOver)

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Only Object Pooling and Vfx bonus are not done. Every other requirement and bonuses are done
+
     public int health = 3;
     public float horizontalInput;
     public float verticalInput;
@@ -27,6 +29,8 @@ public class PlayerController : MonoBehaviour
         Shoot();
     }
 
+    //Requirement Complete: Player spaceship should be accurate and smooth in terms of Shooting and Movement.
+    //This method is responsible for player movement
     void PlayerMovement()
     {
         horizontalInput = Input.GetAxis("Horizontal");
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviour
         KeepInbounds();
     }
 
+    //Requirement Complete: Player spaceship should be accurate and smooth in terms of Shooting and Movement.
+    //This method is responsible for shooting when space is pressed
     void Shoot()
     {
         if(Input.GetKeyDown(KeyCode.Space))
@@ -46,11 +52,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //This method instantiates the bullet
     void InstantiateBullet()
     {
         Instantiate(bulletPrefab, shootPoint.transform.position, bulletPrefab.transform.rotation);
     }
 
+    //This method keeps the player inside the screen bounds
     void KeepInbounds()
     {
         if(transform.position.x < -leftRightBound)
@@ -69,6 +77,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //This method checks trigger to get damage when hit
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("EnemyBullet"))
@@ -77,6 +86,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //This method gets damage
     public void GetDamage()
     {
         health--;
@@ -84,6 +94,7 @@ public class PlayerController : MonoBehaviour
         CheckDeath();
     }
 
+    //This method checks if the player has died
     void CheckDeath()
     {
         if(health < 1)
@@ -93,11 +104,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    //This method is used to set gamemanager reference
     public void SetGameManager(GameManager gameManagerScript)
     {
         this.gameManagerScript = gameManagerScript;
     }
 
+    //This method is used to get health
     public int GetHealth()
     {
         return health;
