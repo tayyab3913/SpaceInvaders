@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fc0f56fd4f4885489aed8e7c1a614fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
+  health: 10
   horizontalInput: 0
   verticalInput: 0
   movementSpeed: 10

@@ -50,6 +50,11 @@ public class Enemy : MonoBehaviour
         {
             GetDamage();
         }
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().GetDamage();
+            GetDamage();
+        }
     }
 
     void GetDamage()

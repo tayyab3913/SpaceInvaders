@@ -77,7 +77,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void GetDamage()
+    public void GetDamage()
     {
         health--;
         gameManagerScript.DisplayPlayerHealth();
